@@ -2,12 +2,18 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Mantén la clave secreta en variables de entorno en producción
+# En producción lo ideal es leerla desde variables de entorno
 SECRET_KEY = '-_&+lsebec(whhw!%n@ww&1j=4-^j_if9x8$q778+99oz&!ms2'
 
-DEBUG = True  # en desarrollo
+# Por ahora lo dejamos en True para probar en Render
+DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".onrender.com",  # para que acepte tu dominio en Render
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -15,17 +21,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_filters',                 # necesarios para los filtros de DRF
+
+    'django_filters',                 # filtros DRF
     'rest_framework',
-    'rest_framework.authtoken',       # conserva soporte de tokens de DRF
-    'corsheaders',                    # librería CORS actualizada
+    'rest_framework.authtoken',       # tokens DRF
+    'corsheaders',                    # CORS
     'app_escolar_api',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',     # CORS debe ir antes de CommonMiddleware
+
+    # CORS SIEMPRE antes de CommonMiddleware
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -33,30 +43,27 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Configuración de CORS: define orígenes permitidos y quita CORS_ORIGIN_ALLOW_ALL
+# CORS: orígenes permitidos (por ahora solo Angular local)
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
+    # luego agregamos aquí el dominio de Vercel, por ejemplo:
+    # 'https://tu-frontend.vercel.app',
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'app_escolar_api.urls'
 
-
-
-import os
-
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+# Static files
 STATIC_URL = "/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# TEMPLATES[0]["DIRS"] = [os.path.join(BASE_DIR, "templates")]
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [],   # si luego usas templates personalizados, van aquí
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,13 +78,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app_escolar_api.wsgi.application'
 
+# 🔹 Para Render: usamos SQLite (no depende de my.cnf ni de MySQL externo)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR, "my.cnf"),
-            'charset': 'utf8mb4',
-        }
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
@@ -93,8 +98,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
