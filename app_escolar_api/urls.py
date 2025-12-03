@@ -8,6 +8,8 @@ from app_escolar_api.views import users
 from app_escolar_api.views import alumnos
 from app_escolar_api.views import maestros
 from app_escolar_api.views import auth
+from app_escolar_api.views.materias import MateriasAll, MateriasView, VerificarNrcView
+from app_escolar_api.views.users import TotalUsers 
 
 
 urlpatterns = [
@@ -19,8 +21,21 @@ urlpatterns = [
         #path('admins-edit/', users.AdminsViewEdit.as_view())
      #Create Alumno
         path('alumnos/', alumnos.AlumnosView.as_view()),
+    #Listar Alumno
+        path('lista-alumnos/', alumnos.AlumnosAll.as_view()),
     #Create Maestro
         path('maestros/', maestros.MaestrosView.as_view()),
+    #Listar Maestros
+        path('lista-maestros/', maestros.MaestrosAll.as_view()),
+    #Total de usuarios
+        path('total-usuarios/', users.TotalUsers.as_view()),
+    # Materias
+        path('materias-all/', MateriasAll.as_view()),                  
+        path('materias/', MateriasView.as_view()),                     
+        path('materias/<int:id>/', MateriasView.as_view()),             
+        path('materias/verificar-nrc/<str:nrc>/', VerificarNrcView.as_view()),
+    # Gráficas 
+        path('total-users/', TotalUsers.as_view()),
     #Login
         path('login/', auth.CustomAuthToken.as_view()),
     #Logout
