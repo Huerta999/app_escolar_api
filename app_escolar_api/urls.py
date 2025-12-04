@@ -36,10 +36,10 @@ urlpatterns = [
         path('materias/verificar-nrc/<str:nrc>/', VerificarNrcView.as_view()),
     # Gráficas 
         path('total-users/', TotalUsers.as_view()),
-    #Login
-         path('login/', auth.LoginView.as_view()),
-    #Logout
-        path('logout/', auth.LogoutView.as_view()),
+        
+    path('login/', auth.CustomAuthToken.as_view()),
+path('logout/', auth.LogoutView.as_view()),
+
 ]
 
 if settings.DEBUG:
