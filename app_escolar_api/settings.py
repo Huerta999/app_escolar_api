@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # -----------------------------
 SECRET_KEY = '-_&+lsebec(whhw!%n@ww&1j=4-^j_if9x8$q778+99oz&!ms2'
 
-DEBUG = True  # Puedes poner False luego de que todo funcione
+DEBUG = False  # Para producción, es mejor en False
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -36,13 +37,12 @@ INSTALLED_APPS = [
 ]
 
 # -----------------------------
-# MIDDLEWARE (IMPORTANTE: ORDEN CORRECTO)
+# MIDDLEWARE (IMPORTANTE)
 # -----------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 
-    # CORS SIEMPRE ANTES DE COMMON
     'corsheaders.middleware.CorsMiddleware',
 
     'django.middleware.common.CommonMiddleware',
@@ -56,12 +56,10 @@ MIDDLEWARE = [
 # -----------------------------
 # CORS CONFIG
 # -----------------------------
-
 CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
-    # Tu dominio Vercel REAL:
     "https://app-escolar-webapp-vecel.vercel.app",
     "https://app-escolar-webapp-vecel-96y6p4dkc-huerta999s-projects.vercel.app",
 ]
@@ -69,12 +67,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS"
+    "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -85,9 +78,8 @@ CORS_ALLOW_HEADERS = [
     "origin",
     "user-agent",
     "x-csrftoken",
-    "x-requested-with"
+    "x-requested-with",
 ]
-
 
 # -----------------------------
 # URLS / WSGI
@@ -96,13 +88,14 @@ ROOT_URLCONF = 'app_escolar_api.urls'
 WSGI_APPLICATION = 'app_escolar_api.wsgi.application'
 
 # -----------------------------
-# BASE DE DATOS (Render usa SQLite)
+# BASE DE DATOS (POSTGRES)
 # -----------------------------
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
 
 # -----------------------------
