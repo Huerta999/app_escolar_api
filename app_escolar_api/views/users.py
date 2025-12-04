@@ -38,65 +38,63 @@ class AdminView(generics.CreateAPIView):
     @transaction.atomic
     def post(self, request, *args, **kwargs):
 
-    required_fields = [
+        required_fields = [
         "rol", "first_name", "last_name", "email", "password",
         "clave_admin", "telefono", "rfc", "edad", "ocupacion"
-    ]
+         ]
 
-    # Validar campos faltantes
-    for field in required_fields:
-        if field not in request.data or request.data[field] in ["", None]:
-            return Response(
+     # Validar campos faltantes
+        for field in required_fields:
+            if field not in request.data or request.data[field] in ["", None]:
+                return Response(
                 {"error": f"El campo '{field}' es obligatorio."},
                 status=400
             )
 
-    # Extraer datos
-    role = request.data["rol"]
-    first_name = request.data["first_name"]
-    last_name = request.data["last_name"]
-    email = request.data["email"]
-    password = request.data["password"]
+        # Extraer datos
+        role = request.data["rol"]
+        first_name = request.data["first_name"]
+        last_name = request.data["last_name"]
+        email = request.data["email"]
+        password = request.data["password"]
 
-    # Validación mínima de email
-    if "@" not in email:
-        return Response({"error": "El correo no es válido."}, 400)
+        # Validación mínima de email
+        if "@" not in email:
+            return Response({"error": "El correo no es válido."}, 400)
 
-    # Validar duplicado
-    if User.objects.filter(email=email).exists():
-        return Response({"error": f"El email {email} ya está registrado."}, 400)
+        # Validar duplicado
+        if User.objects.filter(email=email).exists():
+            return Response({"error": f"El email {email} ya está registrado."}, 400)
 
-    # Crear usuario
-    user = User.objects.create(
-        username=email,
-        email=email,
-        first_name=first_name,
-        last_name=last_name,
-        is_active=True
-    )
-    user.set_password(password)
-    user.save()
+        # Crear usuario
+        user = User.objects.create(
+            username=email,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            is_active=True
+        )
+        user.set_password(password)
+        user.save()
 
-    # Crear o asignar grupo
-    group, created = Group.objects.get_or_create(name=role)
-    group.user_set.add(user)
+        # Crear o asignar grupo
+        group, created = Group.objects.get_or_create(name=role)
+        group.user_set.add(user)
 
-    # Crear Administrador
-    admin = Administradores.objects.create(
-        user=user,
-        clave_admin=request.data["clave_admin"],
-        telefono=request.data["telefono"],
-        rfc=request.data["rfc"].upper(),
-        edad=int(request.data["edad"]),
-        ocupacion=request.data["ocupacion"]
-    )
+        # Crear Administrador
+        admin = Administradores.objects.create(
+            user=user,
+            clave_admin=request.data["clave_admin"],
+            telefono=request.data["telefono"],
+            rfc=request.data["rfc"].upper(),
+            edad=int(request.data["edad"]),
+            ocupacion=request.data["ocupacion"]
+        )
 
-    return Response(
-        {"message": "Administrador creado exitosamente", "id": admin.id},
-        status=201
-    )
-
-
+        return Response(
+            {"message": "Administrador creado exitosamente", "id": admin.id},
+            status=201
+        )
 
     # Actualizar datos del administrador
     @transaction.atomic
