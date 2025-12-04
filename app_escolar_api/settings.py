@@ -46,8 +46,7 @@ MIDDLEWARE = [
 # CORS: orígenes permitidos (por ahora solo Angular local)
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
-    # luego agregamos aquí el dominio de Vercel, por ejemplo:
-    # 'https://tu-frontend.vercel.app',
+    'https://app-escolar-webapp-vece1.vercel.app', 
 ]
 CORS_ALLOW_CREDENTIALS = True
 
