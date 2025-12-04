@@ -37,9 +37,9 @@ urlpatterns = [
     # Gráficas 
         path('total-users/', TotalUsers.as_view()),
     #Login
-        path('login/', auth.CustomAuthToken.as_view()),
+         path('login/', auth.LoginView.as_view()),
     #Logout
-        path('logout/', auth.Logout.as_view())
+        path('logout/', auth.LogoutView.as_view()),
 ]
 
 if settings.DEBUG:
