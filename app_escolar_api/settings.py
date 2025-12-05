@@ -12,7 +12,9 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".onrender.com",
+    "huerta555.pythonanywhere.com",
 ]
+
 
 
 INSTALLED_APPS = [
