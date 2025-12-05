@@ -13,6 +13,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     ".onrender.com",
     "huerta555.pythonanywhere.com",
+    "app-escolar-api.onrender.com",
 ]
 
 
