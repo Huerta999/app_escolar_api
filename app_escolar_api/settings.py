@@ -71,7 +71,7 @@ CORS_ALLOW_CREDENTIALS = True
 # ----------------------------------------
 # URLs / WSGI
 # ----------------------------------------
-ROOT_URLCONF = "app_escolar_api.urls"
+ROOT_URLCONF = "app_escolar_api.app_escolar_api.urls"
 WSGI_APPLICATION = "app_escolar_api.wsgi.application"
 
 # ----------------------------------------
