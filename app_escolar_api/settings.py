@@ -54,8 +54,10 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
+    
     "https://app-escolar-webapp-vecel.vercel.app",
-    "https://app-escolar-webapp-vecel-96y6p4dkc-huerta999s-projects.vercel.app",
+    "https://app-escolar-webapp-vecel-huerta999s-projects.vercel.app",
+    "https://app-escolar-webapp-vecel-huerta999-huerta999s-projects.vercel.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
