@@ -3,6 +3,6 @@ services:
     name: app_escolar_api
     env: python
     pythonVersion: 3.12.3
-    rootDir: app_escolar_api
-    buildCommand: pip install -r ../requirements.txt
+    rootDir: app_escolar_api/app_escolar_api
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app_escolar_api.wsgi:application
