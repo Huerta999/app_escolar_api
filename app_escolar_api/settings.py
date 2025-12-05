@@ -4,9 +4,7 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ----------------------------------------
-# GENERAL
-# ----------------------------------------
+
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
@@ -16,9 +14,7 @@ ALLOWED_HOSTS = [
     ".onrender.com",
 ]
 
-# ----------------------------------------
-# APPS
-# ----------------------------------------
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -37,13 +33,11 @@ INSTALLED_APPS = [
     "app_escolar_api",
 ]
 
-# ----------------------------------------
-# MIDDLEWARE
-# ----------------------------------------
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
-    # IMPORTANTE PARA STATICFILES EN PRODUCCIÓN
+    # Staticfiles for production
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -55,9 +49,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# ----------------------------------------
-# CORS
-# ----------------------------------------
+
 CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
@@ -67,16 +59,10 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-
-# ----------------------------------------
-# URLs / WSGI
-# ----------------------------------------
-ROOT_URLCONF = "app_escolar_api.app_escolar_api.urls"
+ROOT_URLCONF = "app_escolar_api.urls"
 WSGI_APPLICATION = "app_escolar_api.wsgi.application"
 
-# ----------------------------------------
-# DATABASE CONFIG (Render → PostgreSQL)
-# ----------------------------------------
+
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
@@ -89,7 +75,7 @@ if DATABASE_URL:
         )
     }
 else:
-    # Fallback para desarrollo local
+
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -97,9 +83,7 @@ else:
         }
     }
 
-# ----------------------------------------
-# TEMPLATES
-# ----------------------------------------
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -116,24 +100,18 @@ TEMPLATES = [
     },
 ]
 
-# ----------------------------------------
-# STATIC FILES
-# ----------------------------------------
+
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Whitenoise: servir archivos estáticos en producción
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# ----------------------------------------
-# MEDIA
-# ----------------------------------------
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# ----------------------------------------
-# REST FRAMEWORK
-# ----------------------------------------
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
@@ -145,9 +123,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-# ----------------------------------------
-# INTERNACIONALIZACIÓN
-# ----------------------------------------
+
 LANGUAGE_CODE = "es-mx"
 TIME_ZONE = "UTC"
 USE_I18N = True
